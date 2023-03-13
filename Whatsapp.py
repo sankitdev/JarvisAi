@@ -28,7 +28,7 @@ time.sleep(20)
 Speak("Wait for the page to load") 
 
 
-ListWeb = {'Ritu' : "+916353256409",
+ListWeb = {'Deep' : "+91",
             'dost': "+919904019094",
             "pote": '+91'}
 
