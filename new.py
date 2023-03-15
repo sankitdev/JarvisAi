@@ -1,101 +1,84 @@
-# Import necessary libraries
-import wikipedia
-import webbrowser
-import pyttsx3
-import datetime
-import speech_recognition as sr
-import os
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout
 
-# Initialize the text-to-speech engine
-engine = pyttsx3.init()
 
-# Set the voice and rate
-engine.setProperty('voice', 'en-us')
-engine.setProperty('rate', 150)
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.setStyleSheet("background-color: rgb(0, 0, 0);")
+        
+        # Create a QVBoxLayout and set it as the layout manager for the form
+        layout = QVBoxLayout(Form)
+        Form.setLayout(layout)
 
-# Function to speak the text
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
+        # Create a QHBoxLayout for the first row of widgets
+        row1Layout = QHBoxLayout()
+        layout.addLayout(row1Layout)
 
-# Function to greet the user
-def greet():
-    hour = int(datetime.datetime.now().hour)
-    if hour>=0 and hour<12:
-        speak("Good morning, sir.")
-    elif hour>=12 and hour<18:
-        speak("Good afternoon, sir.")
-    else:
-        speak("Good evening, sir.")
+        self.ironmanLabel = QtWidgets.QLabel(Form)
+        self.ironmanLabel.setStyleSheet("border-radius: 200px;\n"
+                                        "background: transparent;")
+        self.ironmanLabel.setText("")
+        self.ironmanLabel.setPixmap(QtGui.QPixmap("E:\\ankitai\\gui_tools\\ironman-portrait.webp"))
+        self.ironmanLabel.setScaledContents(True)
+        self.ironmanLabel.setObjectName("ironmanLabel")
+        row1Layout.addWidget(self.ironmanLabel)
 
-# Function to take command from the user
-def takeCommand():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Listening...")
-        r.pause_threshold = 1
-        audio = r.listen(source)
+        self.arcLabel = QtWidgets.QLabel(Form)
+        self.arcLabel.setStyleSheet("border-radius: 200px;\n"
+                                    "background: transparent;")
+        self.arcLabel.setText("")
+        self.arcLabel.setPixmap(QtGui.QPixmap("E:\\ankitai\\gui_tools\\techcircle.gif"))
+        self.arcLabel.setScaledContents(True)
+        self.arcLabel.setObjectName("arcLabel")
+        row1Layout.addWidget(self.arcLabel)
 
-    try:
-        print("Recognizing...")
-        query = r.recognize_google(audio, language='en-us')
-        print(f"User said: {query}\n")
+        # Create a QHBoxLayout for the second row of widgets
+        row2Layout = QHBoxLayout()
+        layout.addLayout(row2Layout)
 
-    except Exception as e:
-        print("Say that again please...")
-        return "None"
+        self.codingLabel = QtWidgets.QLabel(Form)
+        self.codingLabel.setStyleSheet("border: none;\n"
+                                       "border-radius: 200px;\n"
+                                       "background: transparent;")
+        self.codingLabel.setText("")
+        self.codingLabel.setPixmap(QtGui.QPixmap("E:\\ankitai\\gui_tools\\B.G_Template_1.gif"))
+        self.codingLabel.setScaledContents(True)
+        self.codingLabel.setObjectName("codingLabel")
+        row2Layout.addWidget(self.codingLabel)
 
-    return query
+        self.kartisTechLabel = QtWidgets.QLabel(Form)
+        self.kartisTechLabel.setStyleSheet("\n"
+                                            "border-color: rgb(255, 255, 255);\n"
+                                            "\n"
+                                            "background-color: transparent;")
+        self.kartisTechLabel.setText("")
+        self.kartisTechLabel.setPixmap(QtGui.QPixmap("E:/ankitai/gui_tools/KartisTechnology(white).png"))
+        self.kartisTechLabel.setScaledContents(True)
+        self.kartisTechLabel.setObjectName("kartisTechLabel")
+        row2Layout.addWidget(self.kartisTechLabel)
 
-#Function to wakeup
-def Listen():
-    r = sr.Recognizer()
+        self.backgroundLabel = QtWidgets.QLabel(Form)
+        self.backgroundLabel.setText("")
+        self.backgroundLabel.setPixmap(QtGui.QPixmap("E:\\ankitai\\gui_tools\\background.gif"))
+        self.backgroundLabel.setScaledContents(True)
 
-    with sr.Microphone() as source:
-        print("Listening...")
-        r.pause_threshold = 1
-        audio = r.listen(source,0,6) #lclearistening mode..
-    try:
-        print("Recognizing...")
-        query = r.recognize_google(audio,language="en") 
-    except: 
-        return ""
-    query = str(query).lower()
-    print(query)
-    return query
+        layout.addWidget(self.backgroundLabel)
 
-def WakeupDetected():
-    query = Listen().lower()
+        # Set the minimum size of the form
+        Form.setMinimumSize(640, 480)
 
-    if "hello jarvis" in query:
-        os.startfile(r"E:\A.I Jarvis using python\main.py")
-       
-    else:
-        pass
 
-WakeupDetected() 
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
 
-# Main function
+
 if __name__ == "__main__":
-    greet()
-    while True:
-        query = takeCommand().lower()
-
-        # Logic to execute tasks based on the command
-        if "wikipedia" in query:
-            speak("Searching Wikipedia...")
-            query = query.replace("wikipedia", "")
-            results = wikipedia.summary(query, sentences=3)
-            speak("According to Wikipedia, " + results)
-        elif "open youtube" in query:
-            webbrowser.open("youtube.com")
-        elif "open google" in query:
-            webbrowser.open("google.com")
-        elif "open stackoverflow" in query:
-            webbrowser.open("stackoverflow.com")
-        elif "the time" in query:
-            time = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"Sir, the time is {time}")
-        elif "exit" in query:
-            speak("Exiting, sir.")
-            exit()
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec_())
